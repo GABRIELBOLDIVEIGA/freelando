@@ -28,7 +28,10 @@ export default function LayoutBase() {
                </Row>
             </Container>
          </Cabecalho>
-         <Outlet />
+         
+         <Container>
+            <Outlet />
+         </Container>
 
          <Rodape>
             <Container>
