@@ -5,9 +5,11 @@ import cliente from "./assets/cliente.png"
 import freela from "./assets/freela.png"
 import { Link } from '../../componentes/Link/Link'
 import { Link as RouterLink } from "react-router-dom"
-
+import { useUsuarioCadastroContext } from '../../contexto/CadastroUsuario'
 
 export default function SelecaoCliente() {
+   const { setPerfil } = useUsuarioCadastroContext()
+
    return (
       <div style={{ textAlign: "center" }}>
          <Tipografia variante="h1" componente="h1">
@@ -18,7 +20,7 @@ export default function SelecaoCliente() {
          </Tipografia>
          <Row>
             <Col md={6} sm={12}>
-               <RouterLink to='interesses' >
+               <RouterLink to='interesses' onClick={() => setPerfil("cliente")}>
                   <img src={cliente} alt="imagem de uma pessoa" />
                   <Tipografia variante="boddy" componente="body">
                      Sou cliente e preciso de um freela!
@@ -26,7 +28,7 @@ export default function SelecaoCliente() {
                </RouterLink>
             </Col>
             <Col md={6} sm={12}>
-               <RouterLink to='interesses' >
+               <RouterLink to='interesses' onClick={() => setPerfil("freela")}>
                   <img src={freela} alt="imagem de uma pessoa" />
                   <Tipografia variante="boddy" componente="body">
                      Sou freela e preciso de cliente!

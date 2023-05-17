@@ -27,16 +27,18 @@ const tema = {
         }
     },
     espacamentos: {
-       xs: '8px',
-       s : '16px',
-       l : '32px',
-       xl: '48px'
+        xs: '8px',
+        s: '16px',
+        l: '32px',
+        xl: '48px'
     },
     fontFamily: "'Montserrat', sans-serif"
 }
 
 export const ProvedorTema = ({ children }) => {
-    return <ThemeProvider theme={tema}>
-        { children }
-    </ThemeProvider>
+    return (
+        <ThemeProvider theme={tema}>
+            {children}
+        </ThemeProvider>
+    )
 }

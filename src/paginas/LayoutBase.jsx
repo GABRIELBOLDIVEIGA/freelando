@@ -14,6 +14,7 @@ import { Tipografia } from '../componentes/Tipografia/Tipografia'
 import { Outlet } from 'react-router-dom'
 
 export default function LayoutBase() {
+   
    return (
       <>
          <Cabecalho>

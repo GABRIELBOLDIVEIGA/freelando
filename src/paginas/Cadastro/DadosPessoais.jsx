@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Tipografia } from '../../componentes/Tipografia/Tipografia'
 import { Row, Col } from 'react-grid-system';
 import { Botao } from '../../componentes/Botao/Botao';
 import { Link } from 'react-router-dom';
 import { CampoTexto } from '../../componentes/CampoTexto/CampoTexto';
 import { ListaSupensa } from '../../componentes/ListaSuspensa/ListaSuspensa';
+import { useUsuarioCadastroContext } from '../../contexto/CadastroUsuario';
+import { useNavigate } from 'react-router-dom';
 
 const estadosBrasileiros = [
    { "text": "Acre", "value": "AC" },
@@ -37,9 +39,22 @@ const estadosBrasileiros = [
 ]
 
 export default function DadosPessoais() {
+   const navegar = useNavigate();
+   const { setNomeCompleto, setCidade, setEmail, setSenha, setSenhaConfirmada, setUf, usuario, submeterUsuario, possoPreencherDadosPessoais } = useUsuarioCadastroContext()
+
+   useEffect(() => {
+      if (!possoPreencherDadosPessoais()) {
+         navegar("/cadastro")
+      }
+   }, [navegar, possoPreencherDadosPessoais])
+
+   const finalizarCadastro = (event) => {
+      event.preventDefault();
+      submeterUsuario(usuario)
+   }
 
    return (
-      <div>
+      <form onSubmit={finalizarCadastro}>
          <div style={{ textAlign: "center" }}>
             <Tipografia variante="h1" componente="h1">
                Crie seu cadastro
@@ -51,28 +66,28 @@ export default function DadosPessoais() {
 
          <Row>
             <Col>
-               <CampoTexto titulo="Nome Completo" />
+               <CampoTexto titulo="Nome Completo" onChange={setNomeCompleto} valor={usuario.nomeCompleto} />
             </Col>
          </Row>
          <Row>
             <Col lg={4} md={4} sm={4}>
-               <ListaSupensa titulo="Estado" opcoes={estadosBrasileiros} />
+               <ListaSupensa titulo="Estado" opcoes={estadosBrasileiros} onChange={setUf} valor={usuario.uf}/>
             </Col>
             <Col lg={8} md={8} sm={8}>
-               <CampoTexto titulo="Cidade" />
+               <CampoTexto titulo="Cidade" onChange={setCidade} valor={usuario.cidade}/>
             </Col>
          </Row>
          <Row>
             <Col>
-               <CampoTexto titulo="E-mail" />
+               <CampoTexto titulo="E-mail" onChange={setEmail} valor={usuario.email} tipo='email' />
             </Col>
          </Row>
          <Row>
             <Col lg={6} md={6} sm={6}>
-               <CampoTexto titulo="Senha" />
+               <CampoTexto titulo="Senha" onChange={setSenha} valor={usuario.senha} tipo='password'/>
             </Col>
             <Col lg={6} md={6} sm={6}>
-               <CampoTexto titulo="Repita a Senha" />
+               <CampoTexto titulo="Repita a Senha" onChange={setSenhaConfirmada} valor={usuario.senhaConfirmada} tipo='password'/>
             </Col>
          </Row>
 
@@ -86,14 +101,15 @@ export default function DadosPessoais() {
             </Col>
             <Col lg={6} md={6} sm={6}>
                <div style={{ textAlign: 'right' }}>
-                  <Link to="/cadastro/concluido">
-                     <Botao>
+                  {/* <Link to="/cadastro/concluido"> */}
+                     <Botao type="submit">
                         Próxima
                      </Botao>
-                  </Link>
+                  {/* </Link> */}
                </div>
             </Col>
          </Row>
-      </div>
+         <div>{usuario.erro ? usuario.erro : ""}</div>
+      </form>
    )
 }

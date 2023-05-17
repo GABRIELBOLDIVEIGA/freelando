@@ -5,6 +5,7 @@ import { Botao } from "../../componentes/Botao/Botao"
 import { Tipografia } from "../../componentes/Tipografia/Tipografia"
 import conclusao from './assets/cliente-concluido.png'
 import React from "react"
+import { useUsuarioCadastroContext } from '../../contexto/CadastroUsuario';
 
 const ImagemEstilizada = styled.img`
     max-width: 100%;
@@ -12,6 +13,8 @@ const ImagemEstilizada = styled.img`
 `
 
 const Concluido = () => {
+    const { usuario } = useUsuarioCadastroContext()
+    
     return (
         <>
             <div style={{ textAlign: 'center' }}>
